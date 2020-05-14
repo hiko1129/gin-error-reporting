@@ -13,6 +13,11 @@ func New(client *errorreporting.Client) gin.HandlerFunc {
 		c.Next()
 
 		err := c.Errors.Last()
+
+		if err == nil {
+			return
+		}
+
 		log.Println(err)
 
 		client.Report(errorreporting.Entry{
