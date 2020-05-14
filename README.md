@@ -12,6 +12,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"cloud.google.com/go/errorreporting"
@@ -32,14 +33,12 @@ func main() {
 	r := gin.Default()
 	r.Use(reporting.New(errorClient)) // set middleware
 
-  r := gin.Default()
+	r.GET("/example", func(c *gin.Context) {
+		c.Error(errors.New("foo")) // set error
+		return
+	})
 
-  r.GET("/example", func(c *gin.Context) {
-    c.Error(errors.New("foo")) // set error
-    return
-  }
-
-  r.Run()
+	r.Run()
 }
 ```
 
